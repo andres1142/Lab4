@@ -1,14 +1,18 @@
+.App {
+  margin: 0 10% 0 10%;
+}
+
 .lists_holder {
   display: flex;
   flex-direction: row;
 }
 
-.App {
-  margin: 0 10% 0 10%;
+.lists_holder  r > * {
+  width: 40%;
 }
 
-.lists_holde  r > * {
-  width: 40%;
+.product_list {
+  padding-left: 100px;
 }
 
 
