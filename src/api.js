@@ -77,6 +77,7 @@ app.delete('/api/products/:id', (req, res) => {
 //Gets all products in the cart
 app.get('/api/cart', (req, res) => {
   console.log("Getting products in the cart");
+  console.log(cart)
   res.send(cart);
 });
 
@@ -85,13 +86,12 @@ app.get('/api/cart', (req, res) => {
 //Adds a product to the cart
 app.post('/api/cart/:id', (req, res) => {
   console.log("Adding product to the cart");
-
   //Finds the product in the product array
   let toReturn = productList.find(element => Number(element.id) === Number(req.params.id))
 
   if (toReturn !== undefined) {
     //Checks if it already exists in the cart
-    const foundItem = cart.find(element => Number(toReturn.id) === Number(req.params.id))
+    const foundItem = cart.find(element => Number(toReturn.id) === Number(element.id))
     if (foundItem !== undefined) {
       foundItem.quantity = Number(foundItem.quantity) + 1;
       res.send(foundItem)
@@ -134,12 +134,10 @@ app.delete('/api/cart/:id', (req, res) => {
 
   console.log("Deleting item, " + req.params.id + ' from the cart');
 
-  let id = parseInt(req.params.id);
-  let removeIndex = cart.map(element => {
-    return element.id;
-  })
-    .indexOf(id);
-  if (removeIndex === -1) {
+  let removeItem = cart.find(element => Number(element.id) === Number(req.params.id))
+  let removeIndex = cart.indexOf(removeItem)
+
+  if (removeItem === undefined) {
     res.status(404)
       .send("Sorry, that product ID doesn't exist in");
     return;
